@@ -1,6 +1,7 @@
 import { DataGrid, GridColumns } from '@mui/x-data-grid'
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import styled from 'styled-components'
+import { Action, ActionType, Company, State, store } from '../../store'
 import { companies } from './data'
 
 const columns = [
@@ -49,6 +50,20 @@ const Container = styled.div`
 `
 
 const Companies = (): JSX.Element => {
+  const { dispatch, state } = useContext(store) as {
+    dispatch: (action: Action) => void
+    state: State
+  }
+
+  console.log('companies', state.companies)
+
+  useEffect(() => {
+    dispatch({
+      type: ActionType.SET_COMPANIES,
+      payload: companies as [Company],
+    })
+  }, [])
+
   return (
     <Container>
       <DataGrid

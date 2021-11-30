@@ -1,3 +1,4 @@
+import { Company } from '../../store'
 import { companies as raw } from './companies'
 
 export const categories = [
@@ -12,7 +13,7 @@ export const categories = [
   'roofwork',
 ]
 
-export const companies = raw.map((raw: any) => ({
+export const companies = (raw as [Company]).map((raw) => ({
   ...raw,
   categories: categories.filter(() => Math.random() > 0.7),
 }))
