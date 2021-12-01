@@ -1,15 +1,7 @@
 import React, { createContext, ReactNode, useReducer } from 'react'
-
-export interface Company {
-  id: number
-  name: string
-  city?: string
-  logo?: string
-  categories?: string[]
-}
-
+import { Company } from './types'
 export interface State {
-  companies?: [Company]
+  companies?: Company[]
 }
 
 export enum ActionType {
@@ -18,7 +10,7 @@ export enum ActionType {
 }
 
 export type Action =
-  | { type: ActionType.SET_COMPANIES; payload: [Company] }
+  | { type: ActionType.SET_COMPANIES; payload: Company[] }
   | { type: ActionType.SET_SEARCH_QUERY; payload: string }
 
 const initialState = {}

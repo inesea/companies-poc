@@ -1,13 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 import Companies from './components/Companies'
-import Controls from './components/Controls'
 import Header from './components/Header'
 import PageLayout from './components/PageLayout'
 import { StateProvider } from './store'
 
 const StyledApp = styled.div`
   min-height: 100vh;
+  min-width: 100vw;
 `
 
 const App = (): JSX.Element => {
@@ -15,10 +15,7 @@ const App = (): JSX.Element => {
     <StyledApp>
       <StateProvider>
         <PageLayout>
-          <Header>
-            Companies
-            <Controls />
-          </Header>
+          <Header />
           <Companies />
         </PageLayout>
       </StateProvider>

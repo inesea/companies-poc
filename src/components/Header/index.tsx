@@ -1,16 +1,21 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import styled from 'styled-components'
+import Controls from '../Controls'
 
-const StyledHeader = styled.div`
+const Wrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
-  /* background-color: papayawhip; */
+  align-items: center;
+  justify-content: space-between;
+  min-height: 100px;
+  padding: 0px 12px;
 `
 
-const Header = ({ children }: { children: ReactNode }): JSX.Element => {
-  return <StyledHeader>{children}</StyledHeader>
+const Header = (): JSX.Element => {
+  return (
+    <Wrapper>
+      <Controls />
+    </Wrapper>
+  )
 }
 
 export default Header

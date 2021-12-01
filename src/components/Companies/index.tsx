@@ -1,52 +1,39 @@
-import { DataGrid, GridColumns } from '@mui/x-data-grid'
 import React, { useContext, useEffect } from 'react'
 import styled from 'styled-components'
-import { Action, ActionType, Company, State, store } from '../../store'
+import { Action, ActionType, State, store } from '../../store'
+import { Company } from '../../types'
+import Grid from '../Grid'
+import GridRow from '../Grid/GridRow'
 import { companies } from './data'
 
-const columns = [
+const headers = [
   {
-    field: 'name',
-    headerName: 'Company',
-    width: 300,
-    editable: false,
+    property: 'name',
+    label: 'Company',
+    width: '150px',
   },
   {
-    field: 'city',
-    headerName: 'City',
-    width: 150,
-    editable: false,
+    property: 'city',
+    label: 'City',
+    width: '150px',
   },
   {
-    field: 'logo',
-    headerName: 'Logo',
-    type: 'image',
-    width: 110,
-    editable: false,
-    sortable: false,
-    renderCell: (rowData: { value: string }) =>
-      rowData.value && (
-        <img
-          src={rowData.value}
-          alt="logo"
-          style={{ width: '20px', height: '20px' }}
-        />
-      ),
+    property: 'logo',
+    label: 'Logo',
+    width: '50px',
   },
   {
-    field: 'categories',
-    headerName: 'Specialities',
-    sortable: false,
-    width: 160,
-    renderCell: (rowData: { value: [string] }) => (
-      <div>{rowData.value.join(', ')}</div>
-    ),
+    property: 'categories',
+    label: 'Specialities',
+    width: '1fr',
   },
 ]
 
+const columns = headers.map(({ width }: { width: string }) => width).join(' ')
+
 const Container = styled.div`
-  height: calc(100vh - 100px);
-  width: calc(100vw - 100px);
+  width: 100%;
+  height: 100%;
 `
 
 const Companies = (): JSX.Element => {
@@ -55,24 +42,23 @@ const Companies = (): JSX.Element => {
     state: State
   }
 
-  console.log('companies', state.companies)
+  console.log('companies', { companies: state.companies })
 
   useEffect(() => {
     dispatch({
       type: ActionType.SET_COMPANIES,
-      payload: companies as [Company],
+      payload: companies as Company[],
     })
   }, [])
 
   return (
     <Container>
-      <DataGrid
-        rows={companies}
-        columns={columns as GridColumns}
-        pageSize={10}
-        rowsPerPageOptions={[10]}
-        checkboxSelection
-        disableSelectionOnClick
+      <Grid
+        {...{ headers, rows: companies.slice(0, 100), columns }}
+        isEmpty={companies.length === 0}
+        rowRenderer={(row: Company, columns: string) => {
+          return <GridRow key={row.name} {...{ row, columns }} />
+        }}
       />
     </Container>
   )
