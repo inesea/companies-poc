@@ -13,16 +13,11 @@ export const Wrapper = styled.div`
   background-color: #fafafa;
 `
 
-// export const Container = styled.div`
-//   width: 100%;
-// `
-
 export default ({
   headers,
 }: {
-  headers: [{ label: string; property: string; width: string }]
+  headers: { label: string; property: string; width: string }[]
 }): JSX.Element => (
-  // <Container>
   <Wrapper
     columns={headers.map(({ width }: { width: string }) => width).join(' ')}
   >
@@ -30,5 +25,4 @@ export default ({
       <Typography key={property}>{label}</Typography>
     ))}
   </Wrapper>
-  // </Container>
 )

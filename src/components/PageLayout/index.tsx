@@ -4,8 +4,10 @@ import styled from 'styled-components'
 const StyledPageLayout = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  padding: 12px 24px;
+  padding: 0px 32px;
+  margin: 0;
+  height: 100vh;
+  /* background-color: lavender; */
 `
 
 const PageLayout = ({ children }: { children: ReactNode }): JSX.Element => {

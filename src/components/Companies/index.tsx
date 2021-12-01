@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from 'react'
-import styled from 'styled-components'
 import { Action, ActionType, State, store } from '../../store'
 import { Company } from '../../types'
 import Grid from '../Grid'
@@ -31,11 +30,6 @@ const headers = [
 
 const columns = headers.map(({ width }: { width: string }) => width).join(' ')
 
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-`
-
 const Companies = (): JSX.Element => {
   const { dispatch, state } = useContext(store) as {
     dispatch: (action: Action) => void
@@ -52,15 +46,13 @@ const Companies = (): JSX.Element => {
   }, [])
 
   return (
-    <Container>
-      <Grid
-        {...{ headers, rows: companies.slice(0, 100), columns }}
-        isEmpty={companies.length === 0}
-        rowRenderer={(row: Company, columns: string) => {
-          return <GridRow key={row.name} {...{ row, columns }} />
-        }}
-      />
-    </Container>
+    <Grid
+      {...{ headers, rows: companies.slice(0, 100), columns }}
+      isEmpty={companies.length === 0}
+      rowRenderer={(row: Company, columns: string) => {
+        return <GridRow key={row.name} {...{ row, columns }} />
+      }}
+    />
   )
 }
 

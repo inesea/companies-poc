@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Company } from '../../types'
+import ScrollablePanel from '../ScrollablePanel'
 import GridHeader from './GridHeader'
 
 const EmptyCard = styled.div``
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+  padding: 16px 0px; ;
+`
 
 export default ({
   headers,
@@ -12,7 +20,7 @@ export default ({
   rowRenderer,
   isEmpty,
 }: {
-  headers: [{ property: string; label: string; width: string }] | any
+  headers: { property: string; label: string; width: string }[]
   columns: string
   rows: Company[]
   rowRenderer: (row: Company, columns: string) => JSX.Element
@@ -29,9 +37,11 @@ export default ({
   return isEmpty ? (
     <EmptyCard />
   ) : (
-    <>
+    <Wrapper>
       <GridHeader {...{ headers, columns }} />
-      {localRows.map((row: Company) => rowRenderer(row, columns))}
-    </>
+      <ScrollablePanel>
+        {localRows.map((row: Company) => rowRenderer(row, columns))}
+      </ScrollablePanel>
+    </Wrapper>
   )
 }
