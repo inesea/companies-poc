@@ -7,7 +7,6 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   min-height: 100px;
-  padding: 0px 12px;
 `
 
 const Header = (): JSX.Element => {

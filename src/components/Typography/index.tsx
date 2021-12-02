@@ -14,11 +14,10 @@ const getSize = (size: string) => {
   }
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.span`
   font-size: ${({ size }: { size: string }) => getSize(size)};
   color: #202020;
   line-height: 1.5;
-  padding: 2px;
 `
 
 type Size = 'small' | 'medium' | 'large'

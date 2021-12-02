@@ -19,12 +19,18 @@ export default ({
   rows = [],
   rowRenderer,
   isEmpty,
+  searchQuery,
 }: {
   headers: { property: string; label: string; width: string }[]
   columns: string
   rows: Company[]
-  rowRenderer: (row: Company, columns: string) => JSX.Element
+  rowRenderer: (
+    row: Company,
+    columns: string,
+    searchQuery: string
+  ) => JSX.Element
   isEmpty: boolean
+  searchQuery: string
 }): JSX.Element => {
   const [localRows, setLocalRows] = useState<Company[]>([])
 
@@ -40,7 +46,9 @@ export default ({
     <Wrapper>
       <GridHeader {...{ headers, columns }} />
       <ScrollablePanel>
-        {localRows.map((row: Company) => rowRenderer(row, columns))}
+        {localRows.map((row: Company) =>
+          rowRenderer(row, columns, searchQuery)
+        )}
       </ScrollablePanel>
     </Wrapper>
   )

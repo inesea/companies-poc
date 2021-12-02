@@ -2,6 +2,7 @@ import React, { createContext, ReactNode, useReducer } from 'react'
 import { Company } from './types'
 export interface State {
   companies?: Company[]
+  searchQuery?: string
 }
 
 export enum ActionType {
@@ -13,7 +14,8 @@ export type Action =
   | { type: ActionType.SET_COMPANIES; payload: Company[] }
   | { type: ActionType.SET_SEARCH_QUERY; payload: string }
 
-const initialState = {}
+const initialState = {} // todo: how to set initial state with companies: [] etc
+
 const store = createContext(initialState)
 const { Provider } = store
 
@@ -25,6 +27,12 @@ const StateProvider = ({ children }: { children: ReactNode }): JSX.Element => {
           return {
             ...state,
             companies: action.payload,
+          }
+        }
+        case ActionType.SET_SEARCH_QUERY: {
+          return {
+            ...state,
+            searchQuery: action.payload,
           }
         }
         default: {

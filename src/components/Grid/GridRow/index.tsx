@@ -29,17 +29,50 @@ const Chip = styled.div`
   line-height: 1.5;
 `
 
+export const Highlight = styled.span`
+  margin: 0;
+  background-color: #33fff5;
+  font-size: 14px;
+  color: #202020;
+  line-height: 1.5;
+`
+
 export default ({
   row,
   columns,
+  searchQuery,
 }: {
   row: Company
   columns: string
+  searchQuery: string
 }): JSX.Element => {
   const { name, logo, categories, city } = row
+  const nameLower = name.toLowerCase()
   return (
     <Wrapper columns={columns}>
-      <Typography>{name}</Typography>
+      {searchQuery ? (
+        <>
+          <div>
+            <Typography>
+              {nameLower.includes(searchQuery) &&
+                name.substr(0, nameLower.indexOf(searchQuery))}
+            </Typography>
+            <Highlight>
+              {nameLower.includes(searchQuery) &&
+                name.substr(nameLower.indexOf(searchQuery), searchQuery.length)}
+            </Highlight>
+            <Typography>
+              {nameLower.includes(searchQuery) &&
+                name.substr(
+                  nameLower.indexOf(searchQuery) + searchQuery.length,
+                  name.length - 1
+                )}
+            </Typography>
+          </div>
+        </>
+      ) : (
+        <Typography>{name}</Typography>
+      )}
       <Typography>{city}</Typography>
       <img src={logo} style={{ width: '15px', height: '15px' }} />
       <Flexbox>
