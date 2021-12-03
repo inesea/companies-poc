@@ -1,4 +1,5 @@
 import React from 'react'
+import { InView } from 'react-intersection-observer'
 import styled from 'styled-components'
 import { Company } from '../../../types'
 import Flexbox from '../../Flexbox'
@@ -49,42 +50,53 @@ export default ({
   const { name, logo, categories, city } = row
   const nameLower = name.toLowerCase()
   return (
-    <Wrapper columns={columns}>
-      {searchQuery ? (
-        <>
-          <div>
-            <Typography>
-              {nameLower.includes(searchQuery) &&
-                name.substr(0, nameLower.indexOf(searchQuery))}
-            </Typography>
-            <Highlight>
-              {nameLower.includes(searchQuery) &&
-                name.substr(nameLower.indexOf(searchQuery), searchQuery.length)}
-            </Highlight>
-            <Typography>
-              {nameLower.includes(searchQuery) &&
-                name.substr(
-                  nameLower.indexOf(searchQuery) + searchQuery.length,
-                  name.length - 1
-                )}
-            </Typography>
-          </div>
-        </>
-      ) : (
-        <Typography>{name}</Typography>
+    <InView>
+      {({ ref, inView }) => (
+        <Wrapper ref={ref} columns={columns}>
+          {inView && (
+            <>
+              {searchQuery ? (
+                <>
+                  <div>
+                    <Typography>
+                      {nameLower.includes(searchQuery) &&
+                        name.substr(0, nameLower.indexOf(searchQuery))}
+                    </Typography>
+                    <Highlight>
+                      {nameLower.includes(searchQuery) &&
+                        name.substr(
+                          nameLower.indexOf(searchQuery),
+                          searchQuery.length
+                        )}
+                    </Highlight>
+                    <Typography>
+                      {nameLower.includes(searchQuery) &&
+                        name.substr(
+                          nameLower.indexOf(searchQuery) + searchQuery.length,
+                          name.length - 1
+                        )}
+                    </Typography>
+                  </div>
+                </>
+              ) : (
+                <Typography>{name}</Typography>
+              )}
+              <Typography>{city}</Typography>
+              <img src={logo} style={{ width: '15px', height: '15px' }} />
+              <Flexbox gap="4px">
+                {categories?.map((category: string) => (
+                  <Chip
+                    key={category}
+                    isHighlighted={selectedCategories.includes(category)}
+                  >
+                    {category}
+                  </Chip>
+                ))}
+              </Flexbox>
+            </>
+          )}
+        </Wrapper>
       )}
-      <Typography>{city}</Typography>
-      <img src={logo} style={{ width: '15px', height: '15px' }} />
-      <Flexbox gap="4px">
-        {categories?.map((category: string) => (
-          <Chip
-            key={category}
-            isHighlighted={selectedCategories.includes(category)}
-          >
-            {category}
-          </Chip>
-        ))}
-      </Flexbox>
-    </Wrapper>
+    </InView>
   )
 }

@@ -48,11 +48,15 @@ const Companies = (): JSX.Element => {
   const [filteredCompanies, setFilteredCompanies] = useState<Company[]>([])
 
   useEffect(() => {
+    const t0 = performance.now()
+
     const filteredBySearchQuery = searchQuery
       ? companies.filter(({ name }: Company) =>
           name.toLowerCase().includes((searchQuery || '').toLowerCase())
         )
       : companies
+
+    const t1 = performance.now()
 
     const filteredByCategories =
       (selectedCategories || []).length > 0
@@ -63,8 +67,19 @@ const Companies = (): JSX.Element => {
           )
         : filteredBySearchQuery
 
+    const t2 = performance.now()
+
+    console.log(`Searching took ${t1 - t0} milliseconds.`)
+    console.log(`Filtering took ${t2 - t1} milliseconds.`)
+
     setFilteredCompanies(filteredByCategories)
   }, [searchQuery, selectedCategories])
+
+  // const [filtered, setFiltered] = useState<Company[]>([])
+
+  // useEffect(() => {
+
+  // }, [searchQuery])
 
   return (
     <Grid

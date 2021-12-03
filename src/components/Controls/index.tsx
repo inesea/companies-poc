@@ -1,4 +1,12 @@
-import React, { FormEvent, useContext, useEffect, useState } from 'react'
+// import debounce from 'lodash/debounce'
+import throttle from 'lodash/throttle'
+import React, {
+  FormEvent,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import styled from 'styled-components'
 import { categories } from '../../data/data'
 import { Action, ActionType, State, store } from '../../store'
@@ -30,17 +38,26 @@ const Controls = (): JSX.Element => {
     setQuery(event.currentTarget.value)
   }
 
+  const dispatchSetSearchQuery = (value: string) => {
+    dispatch({
+      type: ActionType.SET_SEARCH_QUERY,
+      payload: value,
+    })
+  }
+
+  const commitDebounced = useCallback(
+    throttle((value: string) => dispatchSetSearchQuery(value), 500),
+    [dispatch]
+  )
+
+  useEffect(() => {
+    commitDebounced(query)
+  }, [query])
+
   const handleSearchDismiss = () => {
     dispatch({ type: ActionType.SET_SEARCH_QUERY, payload: '' })
     setQuery('')
   }
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      dispatch({ type: ActionType.SET_SEARCH_QUERY, payload: query })
-    }, 100)
-    return () => clearTimeout(timeoutId)
-  }, [query])
 
   const handleToggleCategory = (key: string, isSelected: boolean) => {
     dispatch({
