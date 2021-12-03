@@ -16,6 +16,7 @@
     "react-dom": "^17.0.2",
     "react-intersection-observer": "^8.32.5",
     "react-scripts": "4.0.3",
+    "serve": "^13.0.2",
     "styled-components": "^5.3.3",
     "typescript": "^4.1.2",
     "web-vitals": "^1.0.1"
@@ -46,12 +47,12 @@
   "devDependencies": {
     "@types/lodash": "^4.14.177",
     "@types/styled-components": "^5.1.15",
+    "@typescript-eslint/parser": "^4.33.0",
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.27.1",
     "eslint-plugin-react-hooks": "^4.3.0",
-    "serve": "^13.0.2",
     "source-map-explorer": "^2.5.2"
   }
 }
