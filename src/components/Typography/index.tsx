@@ -14,10 +14,18 @@ const getSize = (size: string) => {
   }
 }
 
-const Wrapper = styled.span`
-  font-size: ${({ size }: { size: string }) => getSize(size)};
-  color: #202020;
+const Wrapper = styled.span.attrs(
+  ({ size, color }: { size: string; color: string }) => ({
+    style: {
+      fontSize: getSize(size),
+      color,
+    },
+  })
+)`
   line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
 `
 
 type Size = 'small' | 'medium' | 'large'
@@ -25,9 +33,11 @@ type Size = 'small' | 'medium' | 'large'
 export default ({
   children,
   size = 'medium',
+  color = '#202020',
 }: {
   children: ReactNode
   size?: Size
+  color?: string
 }): JSX.Element => {
-  return <Wrapper {...{ size }}>{children}</Wrapper>
+  return <Wrapper {...{ size, color }}>{children}</Wrapper>
 }

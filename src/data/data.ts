@@ -1,4 +1,4 @@
-import { Company } from '../../types'
+import { Company } from '../types'
 import { companies as raw } from './companies'
 
 export const categories = [

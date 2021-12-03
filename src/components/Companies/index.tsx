@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { companies } from '../../data/data'
 import { Action, ActionType, State, store } from '../../store'
 import { Company } from '../../types'
 import Grid from '../Grid'
 import GridRow from '../Grid/GridRow'
-import { companies } from './data'
 
 const headers = [
   {
@@ -36,7 +36,7 @@ const Companies = (): JSX.Element => {
     state: State
   }
 
-  const { searchQuery } = state
+  const { searchQuery, selectedCategories } = state
 
   useEffect(() => {
     dispatch({
@@ -48,15 +48,23 @@ const Companies = (): JSX.Element => {
   const [filteredCompanies, setFilteredCompanies] = useState<Company[]>([])
 
   useEffect(() => {
-    const filtered = searchQuery
-      ? companies
-          .slice(0, 100)
-          .filter(({ name }: Company) =>
-            name.toLowerCase().includes(searchQuery.toLowerCase())
+    const filteredBySearchQuery = searchQuery
+      ? companies.filter(({ name }: Company) =>
+          name.toLowerCase().includes((searchQuery || '').toLowerCase())
+        )
+      : companies
+
+    const filteredByCategories =
+      (selectedCategories || []).length > 0
+        ? filteredBySearchQuery.filter(({ categories }: Company) =>
+            (categories || []).some((category) =>
+              (selectedCategories || []).includes(category)
+            )
           )
-      : companies.slice(0, 100)
-    setFilteredCompanies(filtered)
-  }, [searchQuery])
+        : filteredBySearchQuery
+
+    setFilteredCompanies(filteredByCategories)
+  }, [searchQuery, selectedCategories])
 
   return (
     <Grid
@@ -65,10 +73,21 @@ const Companies = (): JSX.Element => {
         rows: filteredCompanies,
         columns,
         searchQuery: searchQuery || '',
+        selectedCategories: selectedCategories || [],
       }}
       isEmpty={filteredCompanies.length === 0}
-      rowRenderer={(row: Company, columns: string, searchQuery: string) => {
-        return <GridRow key={row.name} {...{ row, columns, searchQuery }} />
+      rowRenderer={(
+        row: Company,
+        columns: string,
+        searchQuery: string,
+        selectedCategories: string[]
+      ) => {
+        return (
+          <GridRow
+            key={`${row.name}-${row.id}`}
+            {...{ row, columns, searchQuery, selectedCategories }}
+          />
+        )
       }}
     />
   )

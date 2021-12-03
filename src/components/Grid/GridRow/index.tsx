@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Company } from '../../../types'
+import Flexbox from '../../Flexbox'
 import Typography from '../../Typography'
 
 const Wrapper = styled.div`
@@ -10,15 +11,10 @@ const Wrapper = styled.div`
   font-size: 13px;
   min-height: 42px;
   align-items: center;
-  border-bottom: 1px solid lightgray;
+  border-bottom: 1px solid whitesmoke;
   grid-template-columns: ${({ columns }: { columns: string }) => columns};
   grid-column-gap: 16px;
   grid-row-gap: 16px;
-`
-
-const Flexbox = styled.div`
-  display: flex;
-  gap: 4px;
 `
 
 const Chip = styled.div`
@@ -27,11 +23,13 @@ const Chip = styled.div`
   padding: 4px 8px;
   color: #202020;
   line-height: 1.5;
+  background-color: ${({ isHighlighted }: { isHighlighted: boolean }) =>
+    isHighlighted ? 'lemonchiffon' : ''};
 `
 
 export const Highlight = styled.span`
   margin: 0;
-  background-color: #33fff5;
+  background-color: lemonchiffon;
   font-size: 14px;
   color: #202020;
   line-height: 1.5;
@@ -41,10 +39,12 @@ export default ({
   row,
   columns,
   searchQuery,
+  selectedCategories = [],
 }: {
   row: Company
   columns: string
   searchQuery: string
+  selectedCategories: string[]
 }): JSX.Element => {
   const { name, logo, categories, city } = row
   const nameLower = name.toLowerCase()
@@ -75,9 +75,14 @@ export default ({
       )}
       <Typography>{city}</Typography>
       <img src={logo} style={{ width: '15px', height: '15px' }} />
-      <Flexbox>
+      <Flexbox gap="4px">
         {categories?.map((category: string) => (
-          <Chip key={category}>{category}</Chip>
+          <Chip
+            key={category}
+            isHighlighted={selectedCategories.includes(category)}
+          >
+            {category}
+          </Chip>
         ))}
       </Flexbox>
     </Wrapper>
