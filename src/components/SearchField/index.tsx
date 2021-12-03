@@ -1,63 +1,52 @@
-import React, { FormEvent } from 'react'
-import styled from 'styled-components'
-import DismissButton from '../DismissButton'
-
-const Wrapper = styled.div`
-  position: relative;
-`
-
-export const Input = styled.input`
-  height: 32px;
-  width: 200px;
-  display: flex;
-  align-items: center;
-  padding: 0 8px;
-  border: 1px solid lightgray;
-  border-radius: 4px;
-  ::placeholder {
-    color: darkgray;
-    font-size: 14px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
-      'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-      'Helvetica Neue', sans-serif;
-    line-height: 1.5;
-  }
-  :focus {
-    outline: none;
-  }
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-`
-
-const ButtonContainer = styled.div`
-  position: absolute;
-  top: 10px;
-  right: 6px;
-`
+import CloseIcon from '@mui/icons-material/Close'
+import {
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+} from '@mui/material'
+import React, { ChangeEvent } from 'react'
 
 const Controls = ({
   value,
+  placeholder,
   onChange,
   onDismiss,
 }: {
   value: string
-  onChange: (event: FormEvent<HTMLInputElement>) => void
+  placeholder: string
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void
   onDismiss: () => void
 }): JSX.Element => (
-  <Wrapper>
-    <Input
-      type="text"
-      value={value}
-      onChange={onChange}
-      placeholder="Search for a company..."
-    />
-    {value && (
-      <ButtonContainer>
-        <DismissButton onClick={onDismiss} />
-      </ButtonContainer>
-    )}
-  </Wrapper>
+  <>
+    <FormControl size="small" variant="outlined">
+      <InputLabel htmlFor="outlined-adornment-search-field">
+        {placeholder}
+      </InputLabel>
+      <OutlinedInput
+        id="outlined-adornment-search-field"
+        value={value}
+        onChange={onChange}
+        endAdornment={
+          <InputAdornment position="end">
+            {value && (
+              <IconButton
+                tabIndex={-1}
+                aria-label="Clear content"
+                onClick={onDismiss}
+                onMouseDown={onDismiss}
+                edge="end"
+              >
+                <CloseIcon />
+              </IconButton>
+            )}
+          </InputAdornment>
+        }
+        label={placeholder}
+      />
+    </FormControl>
+  </>
 )
 
 export default Controls

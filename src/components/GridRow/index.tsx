@@ -1,9 +1,9 @@
 import React from 'react'
 import { InView } from 'react-intersection-observer'
 import styled from 'styled-components'
-import { Company } from '../../../types'
-import Flexbox from '../../Flexbox'
-import Typography from '../../Typography'
+import { Company } from '../../types'
+import Flexbox from '../Flexbox'
+import Typography from '../Typography'
 
 const Wrapper = styled.div`
   align-self: stretch;
@@ -83,7 +83,7 @@ export default ({
               )}
               <Typography>{city}</Typography>
               <img src={logo} style={{ width: '15px', height: '15px' }} />
-              <Flexbox gap="4px">
+              <Flexbox gap="4px" flexWrap="wrap">
                 {categories?.map((category: string) => (
                   <Chip
                     key={category}

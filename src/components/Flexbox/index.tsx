@@ -5,6 +5,7 @@ interface FlexboxStyles {
   flexDirection?: string
   alignItems?: string
   justifyContent?: string
+  flexWrap?: string
   gap?: string
   width?: string
   height?: string
@@ -18,8 +19,9 @@ interface FlexboxProps extends FlexboxStyles {
 const Flexbox = styled.div.attrs(
   ({
     flexDirection,
-    alignItems,
     justifyContent,
+    alignItems,
+    flexWrap,
     gap,
     width,
     height,
@@ -27,9 +29,10 @@ const Flexbox = styled.div.attrs(
   }: FlexboxStyles) => ({
     style: {
       display: 'flex',
-      flexDirection,
       justifyContent,
+      flexDirection,
       alignItems,
+      flexWrap,
       gap,
       width,
       height,
@@ -41,8 +44,9 @@ const Flexbox = styled.div.attrs(
 export default ({
   children,
   flexDirection = 'row',
-  alignItems = 'center',
   justifyContent = 'flex-start',
+  alignItems = 'center',
+  flexWrap = 'nowrap',
   gap = '0',
   width = '100%',
   height = '100%',
@@ -52,8 +56,9 @@ export default ({
     <Flexbox
       {...{
         flexDirection,
-        alignItems,
         justifyContent,
+        alignItems,
+        flexWrap,
         gap,
         width,
         height,

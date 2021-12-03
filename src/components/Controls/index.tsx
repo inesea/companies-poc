@@ -1,4 +1,3 @@
-// import debounce from 'lodash/debounce'
 import throttle from 'lodash/throttle'
 import React, {
   FormEvent,
@@ -45,13 +44,13 @@ const Controls = (): JSX.Element => {
     })
   }
 
-  const commitDebounced = useCallback(
+  const dispatchSetQueryThrottled = useCallback(
     throttle((value: string) => dispatchSetSearchQuery(value), 500),
     [dispatch]
   )
 
   useEffect(() => {
-    commitDebounced(query)
+    dispatchSetQueryThrottled(query)
   }, [query])
 
   const handleSearchDismiss = () => {
@@ -59,25 +58,10 @@ const Controls = (): JSX.Element => {
     setQuery('')
   }
 
-  const handleToggleCategory = (key: string, isSelected: boolean) => {
+  const handleChangeCategories = (categories: string[]) => {
     dispatch({
-      type: isSelected
-        ? ActionType.ADD_CATEGORY_FILTER
-        : ActionType.REMOVE_CATEGORY_FILTER,
-      payload: key,
-    })
-  }
-
-  const handleSelectAllCategories = () => {
-    dispatch({
-      type: ActionType.SELECT_ALL_CATEGORIES,
-      payload: filterOptions.map(({ key }) => key),
-    })
-  }
-
-  const handleClearAllCategories = () => {
-    dispatch({
-      type: ActionType.CLEAR_ALL_CATEGORIES,
+      type: ActionType.SET_CATEGORY_FILTER,
+      payload: categories,
     })
   }
 
@@ -88,14 +72,13 @@ const Controls = (): JSX.Element => {
           value={query}
           onChange={handleSearchChange}
           onDismiss={handleSearchDismiss}
+          placeholder="Search by name"
         />
         <MultiSelect
           options={filterOptions}
           selectedOptions={selectedCategories || []}
-          placeholder="Filter by categories..."
-          selectOption={handleToggleCategory}
-          selectAll={handleSelectAllCategories}
-          clearAll={handleClearAllCategories}
+          onChangeSelection={handleChangeCategories}
+          placeholder="Filter by category"
         />
       </Flexbox>
     </StyledControls>

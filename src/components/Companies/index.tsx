@@ -3,13 +3,13 @@ import { companies } from '../../data/data'
 import { Action, ActionType, State, store } from '../../store'
 import { Company } from '../../types'
 import Grid from '../Grid'
-import GridRow from '../Grid/GridRow'
+import GridRow from '../GridRow'
 
 const headers = [
   {
     property: 'name',
     label: 'Company',
-    width: '150px',
+    width: 'minmax(250px, 1fr)',
   },
   {
     property: 'city',
@@ -24,7 +24,7 @@ const headers = [
   {
     property: 'categories',
     label: 'Specialities',
-    width: '1fr',
+    width: '2fr',
   },
 ]
 

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Company } from '../../types'
+import GridHeader from '../GridHeader'
 import ScrollablePanel from '../ScrollablePanel'
-import GridHeader from './GridHeader'
 
 const EmptyCard = styled.div``
 

@@ -1,36 +1,18 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { createRef, RefObject, useEffect, useState } from 'react'
-import DismissButton from '../DismissButton'
-import Flexbox from '../Flexbox'
-import Typography from '../Typography'
-import * as Styled from './styles'
-
-// todo ia: fix any type
-const useOnClickOutside = (
-  ref: RefObject<HTMLDivElement>,
-  handler: (event: any) => void
-) => {
-  useEffect(() => {
-    const listener = (event: any) => {
-      if (!ref.current || ref.current.contains(event.target)) {
-        return
-      }
-      handler(event)
-    }
-    document.addEventListener('mousedown', listener)
-    document.addEventListener('touchstart', listener)
-    return () => {
-      document.removeEventListener('mousedown', listener)
-      document.removeEventListener('touchstart', listener)
-    }
-  }, [ref, handler])
-}
+import {
+  Checkbox,
+  FormControl,
+  InputLabel,
+  ListItemText,
+  MenuItem,
+  OutlinedInput,
+  Select,
+} from '@mui/material'
+import { SelectChangeEvent } from '@mui/material/Select'
+import React from 'react'
 
 export default ({
   options,
-  selectOption,
-  selectAll,
-  clearAll,
+  onChangeSelection,
   selectedOptions,
   placeholder,
 }: {
@@ -38,86 +20,33 @@ export default ({
     key: string
     label: string
   }[]
-  selectOption: (option: string, isSelected: boolean) => void
-  selectAll: () => void
-  clearAll: () => void
+  onChangeSelection: (options: string[]) => void
   selectedOptions: string[]
   placeholder: string
-}) => {
-  const ref = createRef<HTMLDivElement>()
-  const [isOpen, setOpen] = useState<boolean>(false)
-
-  useOnClickOutside(ref, () => {
-    setOpen(false)
-  })
+}): JSX.Element => {
+  const handleChange = (event: SelectChangeEvent<string[]>) => {
+    onChangeSelection(event.target.value as string[])
+  }
 
   return (
-    <Styled.Wrapper
-      ref={ref}
-      onClick={() => {
-        setOpen(!isOpen)
-      }}
-    >
-      <Flexbox gap="8px" justifyContent="space-between">
-        <Typography color="darkgray">
-          {selectedOptions.length > 0
-            ? `${selectedOptions.length} categories selected`
-            : placeholder}
-        </Typography>
-        {selectedOptions.length > 0 && (
-          <Styled.ButtonContainer>
-            <DismissButton
-              onClick={(event: any) => {
-                clearAll()
-                event.stopPropagation()
-                event.preventDefault()
-              }}
-            />
-          </Styled.ButtonContainer>
-        )}
-        <Flexbox gap="4px" justifyContent="flex-end">
-          {isOpen ? <Styled.UpwardIcon /> : <Styled.DownwardIcon />}
-        </Flexbox>
-      </Flexbox>
-      {isOpen && (
-        <Styled.MultiSelect>
-          <Styled.ControlOption>
-            <Styled.Button
-              onClick={(event: any) => {
-                selectAll()
-                event.stopPropagation()
-                event.preventDefault()
-              }}
-            >
-              Select all
-            </Styled.Button>
-            <Styled.Button
-              onClick={(event: any) => {
-                clearAll()
-                event.stopPropagation()
-                event.preventDefault()
-              }}
-            >
-              Clear
-            </Styled.Button>
-          </Styled.ControlOption>
-          {options.map((option) => (
-            <Styled.Option
-              key={option.key}
-              onClick={(event) => {
-                selectOption(option.key, !selectedOptions.includes(option.key))
-                event.stopPropagation()
-                event.preventDefault()
-              }}
-            >
-              <Styled.Checkbox
-                isSelected={selectedOptions.includes(option.key)}
-              />
-              <Typography>{option.label}</Typography>
-            </Styled.Option>
-          ))}
-        </Styled.MultiSelect>
-      )}
-    </Styled.Wrapper>
+    <FormControl size="small" sx={{ m: 1, width: 300 }}>
+      <InputLabel id="multiple-checkbox-label">{placeholder}</InputLabel>
+      <Select
+        labelId="multiple-checkbox-label"
+        id="multiple-checkbox"
+        multiple
+        value={selectedOptions}
+        onChange={handleChange}
+        input={<OutlinedInput label={placeholder} />}
+        renderValue={(selected) => selected.join(', ')}
+      >
+        {options.map(({ key, label }: { key: string; label: string }) => (
+          <MenuItem key={key} value={label}>
+            <Checkbox checked={selectedOptions.includes(key)} />
+            <ListItemText primary={label} />
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
   )
 }
