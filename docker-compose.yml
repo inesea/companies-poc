@@ -1,0 +1,18 @@
+version: '3'
+services:
+  client:
+    image: companies-poc-ui
+    restart: always
+    ports:
+      - '127.0.0.1:3000:3000'
+    build:
+      context: .
+      dockerfile: Dockerfile
+  api:
+    image: companies-poc-api
+    restart: always
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    ports:
+      - '127.0.0.1:8000:8000'

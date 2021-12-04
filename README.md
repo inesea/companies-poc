@@ -8,6 +8,12 @@ Mock data was generated using [Mockaroo](https://www.mockaroo.com/).
 
 In the project directory, you can run:
 
+### `docker-compose up --build -d`
+
+Builds and starts containerized app with a single command.
+UI runs on [http://localhost:3000](http://localhost:3000).
+Backend server starts on [http://localhost:8000](http://localhost:8000).
+
 ### `npm run dev`
 
 Runs the app in the _development_ mode, concurrently UI + server.
