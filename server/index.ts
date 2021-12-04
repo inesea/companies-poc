@@ -1,12 +1,23 @@
+import cors from 'cors'
 import express, { Application } from 'express'
+import categories from './data/categories'
+import companies from './data/companies'
 
 const PORT = process.env.PORT || 8000
 
 const app: Application = express()
 
-app.get('/ping', async (_req, res) => {
+app.use(cors())
+
+app.get('/api/companies', async (_req, res) => {
   res.send({
-    message: 'pong',
+    companies,
+  })
+})
+
+app.get('/api/categories', async (_req, res) => {
+  res.send({
+    categories,
   })
 })
 

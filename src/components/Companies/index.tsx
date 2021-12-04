@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { companies } from '../../data/data'
+import { getCompanies } from '../../api'
 import { Action, ActionType, State, store } from '../../store'
 import { Company } from '../../types'
 import Grid from '../Grid'
@@ -35,29 +35,33 @@ const Companies = (): JSX.Element => {
     dispatch: (action: Action) => void
     state: State
   }
-
-  const { searchQuery, selectedCategories } = state
-
-  useEffect(() => {
-    dispatch({
-      type: ActionType.SET_COMPANIES,
-      payload: companies as Company[],
-    })
-  }, [])
-
+  const { searchQuery, selectedCategories, companies } = state
+  const [isInitialized, setInitialized] = useState<boolean>(false)
   const [filteredCompanies, setFilteredCompanies] = useState<Company[]>([])
 
   useEffect(() => {
-    // const t0 = performance.now()
+    if (!isInitialized) {
+      const initData = async () => {
+        const data = await getCompanies()
+        // todo handle dispatch error
+        dispatch({
+          type: ActionType.INIT_COMPANIES,
+          payload: data.companies,
+        })
+      }
+      initData()
+    }
+    setInitialized(true)
+  }, [isInitialized])
 
+  useEffect(() => {
+    // const t0 = performance.now()
     const filteredBySearchQuery = searchQuery
-      ? companies.filter(({ name }: Company) =>
+      ? (companies || []).filter(({ name }: Company) =>
           name.toLowerCase().includes((searchQuery || '').toLowerCase())
         )
-      : companies
-
+      : companies || []
     // const t1 = performance.now()
-
     const filteredByCategories =
       (selectedCategories || []).length > 0
         ? filteredBySearchQuery.filter(({ categories }: Company) =>
@@ -66,14 +70,11 @@ const Companies = (): JSX.Element => {
             )
           )
         : filteredBySearchQuery
-
     // const t2 = performance.now()
-
     // console.log(`Searching took ${t1 - t0} milliseconds.`)
     // console.log(`Filtering took ${t2 - t1} milliseconds.`)
-
     setFilteredCompanies(filteredByCategories)
-  }, [searchQuery, selectedCategories])
+  }, [searchQuery, selectedCategories, companies])
 
   return (
     <Grid
@@ -103,3 +104,29 @@ const Companies = (): JSX.Element => {
 }
 
 export default Companies
+
+//   useEffect(() => {
+//     const newFiltered = query
+//       ? filtered.filter(({ name }: Company) =>
+//           name.toLowerCase().includes(query.toLowerCase())
+//         )
+//       : filteredCategories.length > 0
+//       ? filtered
+//       : stateCompanies
+//     setFiltered(newFiltered)
+//   }, [searchQuery])
+
+//   useEffect(() => {
+//     const newFiltered =
+//       filteredCategories.length > 0
+//         ? filtered.filter(({ categories }: Company) =>
+//             // (categories || []).every((category) =>  // todo: use && logic instead of || for the filter?
+//             (categories || []).some((category) =>
+//               filteredCategories.includes(category)
+//             )
+//           )
+//         : query
+//         ? filtered
+//         : stateCompanies
+//     setFiltered(newFiltered)
+//   }, [filteredCategories])

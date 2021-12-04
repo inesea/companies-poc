@@ -7,7 +7,7 @@ import React, {
   useState,
 } from 'react'
 import styled from 'styled-components'
-import { categories } from '../../data/data'
+import { getCategories } from '../../api'
 import { Action, ActionType, State, store } from '../../store'
 import Flexbox from '../Flexbox'
 import MultiSelect from '../MultiSelect'
@@ -20,18 +20,29 @@ const StyledControls = styled.div`
   width: 100%;
 `
 
-const filterOptions = categories.map((category) => ({
-  key: category,
-  label: category,
-}))
-
 const Controls = (): JSX.Element => {
   const { dispatch, state } = useContext(store) as {
     dispatch: (action: Action) => void
     state: State
   }
-  const { selectedCategories } = state
+  const { selectedCategories, categories: categoryOptions } = state
   const [query, setQuery] = useState<string>('')
+  const [isInitialized, setInitialized] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (!isInitialized) {
+      const initData = async () => {
+        const data = await getCategories()
+        // todo handle dispatch error
+        dispatch({
+          type: ActionType.INIT_CATEGORIES,
+          payload: data.categories,
+        })
+      }
+      initData()
+    }
+    setInitialized(true)
+  }, [isInitialized])
 
   const handleSearchChange = (event: FormEvent<HTMLInputElement>) => {
     setQuery(event.currentTarget.value)
@@ -75,7 +86,10 @@ const Controls = (): JSX.Element => {
           placeholder="Search by name"
         />
         <MultiSelect
-          options={filterOptions}
+          options={(categoryOptions || []).map((category) => ({
+            key: category,
+            label: category,
+          }))}
           selectedOptions={selectedCategories || []}
           onChangeSelection={handleChangeCategories}
           placeholder="Filter by category"

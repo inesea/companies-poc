@@ -38,7 +38,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ### `npm run analyze`
 
-Runs `source-map-explorer` on the built artifact for conveniently overlooking bundle size and composition.\
+Runs `source-map-explorer` on the built artifact for conveniently overlooking bundle size and composition.
 
 ### `npm run eject`
 
