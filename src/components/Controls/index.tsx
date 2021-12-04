@@ -25,7 +25,7 @@ const Controls = (): JSX.Element => {
     dispatch: (action: Action) => void
     state: State
   }
-  const { selectedCategories, categories: categoryOptions } = state
+  const { selectedCategories = [], categories: categoryOptions = [] } = state
   const [query, setQuery] = useState<string>('')
   const [isInitialized, setInitialized] = useState<boolean>(false)
 
@@ -86,11 +86,11 @@ const Controls = (): JSX.Element => {
           placeholder="Search by name"
         />
         <MultiSelect
-          options={(categoryOptions || []).map((category) => ({
+          options={categoryOptions.map((category) => ({
             key: category,
             label: category,
           }))}
-          selectedOptions={selectedCategories || []}
+          selectedOptions={selectedCategories}
           onChangeSelection={handleChangeCategories}
           placeholder="Filter by category"
         />

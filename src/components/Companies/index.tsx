@@ -35,7 +35,7 @@ const Companies = (): JSX.Element => {
     dispatch: (action: Action) => void
     state: State
   }
-  const { searchQuery, selectedCategories, companies } = state
+  const { searchQuery = '', selectedCategories = [], companies = [] } = state
   const [isInitialized, setInitialized] = useState<boolean>(false)
   const [filteredCompanies, setFilteredCompanies] = useState<Company[]>([])
 
@@ -57,17 +57,20 @@ const Companies = (): JSX.Element => {
   useEffect(() => {
     // const t0 = performance.now()
     const filteredBySearchQuery = searchQuery
-      ? (companies || []).filter(({ name }: Company) =>
-          name.toLowerCase().includes((searchQuery || '').toLowerCase())
+      ? companies.filter(({ name }: Company) =>
+          name.toLowerCase().includes(searchQuery.toLowerCase())
         )
-      : companies || []
+      : companies
     // const t1 = performance.now()
     const filteredByCategories =
-      (selectedCategories || []).length > 0
-        ? filteredBySearchQuery.filter(({ categories }: Company) =>
-            (categories || []).some((category) =>
-              (selectedCategories || []).includes(category)
-            )
+      selectedCategories.length > 0
+        ? filteredBySearchQuery.filter(
+            ({ categories = [] }: Company) =>
+              categories.length > 0 &&
+              // todo: not sure which is more favorable `every` vs `some` based filtering
+              selectedCategories.every((category) =>
+                categories.includes(category)
+              )
           )
         : filteredBySearchQuery
     // const t2 = performance.now()
@@ -82,8 +85,8 @@ const Companies = (): JSX.Element => {
         headers,
         rows: filteredCompanies,
         columns,
-        searchQuery: searchQuery || '',
-        selectedCategories: selectedCategories || [],
+        searchQuery: searchQuery,
+        selectedCategories: selectedCategories,
       }}
       isEmpty={filteredCompanies.length === 0}
       rowRenderer={(
@@ -120,8 +123,7 @@ export default Companies
 //     const newFiltered =
 //       filteredCategories.length > 0
 //         ? filtered.filter(({ categories }: Company) =>
-//             // (categories || []).every((category) =>  // todo: use && logic instead of || for the filter?
-//             (categories || []).some((category) =>
+//             categories.some((category) =>
 //               filteredCategories.includes(category)
 //             )
 //           )

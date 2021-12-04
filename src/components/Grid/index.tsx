@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useInView } from 'react-intersection-observer'
 import styled from 'styled-components'
 import { Company } from '../../types'
 import GridHeader from '../GridHeader'
@@ -36,6 +37,7 @@ export default ({
   selectedCategories: string[]
 }): JSX.Element => {
   const [localRows, setLocalRows] = useState<Company[]>([])
+  const [ref, inView] = useInView()
 
   useEffect(() => {
     if (rows.length > 0) {

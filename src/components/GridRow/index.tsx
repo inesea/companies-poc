@@ -28,12 +28,17 @@ const Chip = styled.div`
     isHighlighted ? 'lemonchiffon' : ''};
 `
 
-export const Highlight = styled.span`
+const Highlight = styled.span`
   margin: 0;
   background-color: lemonchiffon;
   font-size: 14px;
   color: #202020;
   line-height: 1.5;
+`
+
+const Logo = styled.img`
+  width: 18px;
+  height: 18px;
 `
 
 export default ({
@@ -82,7 +87,7 @@ export default ({
                 <Typography>{name}</Typography>
               )}
               <Typography>{city}</Typography>
-              <img src={logo} style={{ width: '15px', height: '15px' }} />
+              <Logo src={logo} />
               <Flexbox gap="4px" flexWrap="wrap">
                 {categories?.map((category: string) => (
                   <Chip
