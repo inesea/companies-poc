@@ -1,6 +1,8 @@
+// import CloseIcon from '@mui/icons-material/Close'
 import {
   Checkbox,
   FormControl,
+  // IconButton,
   InputLabel,
   ListItemText,
   MenuItem,
@@ -28,8 +30,12 @@ export default ({
     onChangeSelection(event.target.value as string[])
   }
 
+  // const handleClearAll = () => {
+  //   onChangeSelection([])
+  // }
+
   return (
-    <FormControl size="small" sx={{ m: 1, width: 300 }}>
+    <FormControl size="small" sx={{ m: 1, width: 300, display: 'flex' }}>
       <InputLabel id="multiple-checkbox-label">{placeholder}</InputLabel>
       <Select
         labelId="multiple-checkbox-label"
@@ -38,7 +44,7 @@ export default ({
         value={selectedOptions}
         onChange={handleChange}
         input={<OutlinedInput label={placeholder} />}
-        renderValue={(selected) => selected.join(', ')}
+        renderValue={(selected) => <div>{selected.join(', ')}</div>}
       >
         {options.map(({ key, label }: { key: string; label: string }) => (
           <MenuItem key={key} value={label}>
@@ -47,6 +53,15 @@ export default ({
           </MenuItem>
         ))}
       </Select>
+      {/* <IconButton
+        size="small"
+        tabIndex={-1}
+        aria-label="Clear content"
+        onClick={handleClearAll}
+        onMouseDown={handleClearAll}
+      >
+        <CloseIcon onClick={handleClearAll} />
+      </IconButton> */}
     </FormControl>
   )
 }
