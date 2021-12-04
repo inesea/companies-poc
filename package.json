@@ -7,6 +7,7 @@
     "@emotion/styled": "^11.6.0",
     "@mui/icons-material": "^5.2.0",
     "@mui/material": "^5.2.2",
+    "concurrently": "^6.4.0",
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
     "react": "^17.0.2",
@@ -15,6 +16,7 @@
     "react-scripts": "4.0.3",
     "serve": "^13.0.2",
     "styled-components": "^5.3.3",
+    "typescript": "^4.1.2",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
@@ -57,7 +59,6 @@
     "@types/react-dom": "^17.0.0",
     "@types/styled-components": "^5.1.15",
     "@typescript-eslint/parser": "^4.33.0",
-    "concurrently": "^6.4.0",
     "cors": "^2.8.5",
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.25.3",
@@ -66,7 +67,6 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "express": "^4.17.1",
     "nodemon": "^2.0.15",
-    "source-map-explorer": "^2.5.2",
-    "typescript": "^4.1.2"
+    "source-map-explorer": "^2.5.2"
   }
 }
