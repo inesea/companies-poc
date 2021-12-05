@@ -28,13 +28,13 @@
     "server:build": "tsc --build ./server",
     "server:prod": "npm run server:build && node ./server/build/index.js",
     "dev": "concurrently \"npm run ui:dev\" \"npm run server:dev\"",
-    "start": "npm run ui:prod",
-    "heroku-postbuild": "cd server && npm install && npm run server:prod",
+    "start": "npm install && npm run build && cd server && npm install && npm run server:prod",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
+  "proxy": "http://localhost:5000",
   "engines": {
     "node": "14.x"
   },

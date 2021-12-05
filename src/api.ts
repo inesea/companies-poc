@@ -1,5 +1,7 @@
 import { Company } from './types'
-const serverUrl = 'http://localhost:8000'
+const serverUrl = window.location.href
+
+console.log({ serverUrl }) // eslint-disable-line no-console
 
 interface CompaniesResponse {
   errorMessage: string | null
@@ -14,7 +16,7 @@ interface CategoriesResponse {
 export const getCompanies = async (): Promise<CompaniesResponse> => {
   let data
   try {
-    const response = await fetch(`${serverUrl}/api/companies`)
+    const response = await fetch(`${serverUrl}api/companies`)
     data = {
       ...(await response.json()),
       errorMessage: null,
@@ -28,7 +30,7 @@ export const getCompanies = async (): Promise<CompaniesResponse> => {
 export const getCategories = async (): Promise<CategoriesResponse> => {
   let data
   try {
-    const response = await fetch(`${serverUrl}/api/categories`)
+    const response = await fetch(`${serverUrl}api/categories`)
     data = {
       ...(await response.json()),
       errorMessage: null,
