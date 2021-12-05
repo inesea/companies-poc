@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { useInView } from 'react-intersection-observer'
 import styled from 'styled-components'
 import { Company } from '../../types'
 import GridHeader from '../GridHeader'
 import ScrollablePanel from '../ScrollablePanel'
 
-const EmptyCard = styled.div``
+const EmptyCard = styled.div`
+  font-size: 12px;
+  color: darkgray;
+`
 
 const Wrapper = styled.div`
   display: flex;
@@ -37,7 +39,6 @@ export default ({
   selectedCategories: string[]
 }): JSX.Element => {
   const [localRows, setLocalRows] = useState<Company[]>([])
-  const [ref, inView] = useInView()
 
   useEffect(() => {
     if (rows.length > 0) {
@@ -46,7 +47,7 @@ export default ({
   }, [rows])
 
   return isEmpty ? (
-    <EmptyCard />
+    <EmptyCard>No data...</EmptyCard>
   ) : (
     <Wrapper>
       <GridHeader {...{ headers, columns }} />

@@ -1,0 +1,10 @@
+Dockerfile
+docker-compose.yml
+.dockerignore
+.gitignore
+.vscode
+.prettierrc
+README.md
+build
+node_modules
+server

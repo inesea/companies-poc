@@ -1,15 +1,10 @@
-FROM node:14-slim
-
+FROM node:16-alpine
 ENV NODE_ENV=production
-
 WORKDIR /app
-
-COPY server/package*.json /app/
-COPY server /app/server
-
-RUN npm ci --production
+COPY . .
+RUN npm ci
 RUN npm run server:build
 
-EXPOSE 8000
+EXPOSE 5000
 
-CMD [ "node", "server/build/index.js" ]
+CMD [ "node", "build/index.js" ]
